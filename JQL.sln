@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JQL", "JQL\JQL.csproj", "{D638B366-4365-44FE-AD7D-96BE37929A03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JQLTests", "JQLTests\JQLTests.csproj", "{B8B57E20-10C4-4EEF-8010-52BE9EC4A574}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D638B366-4365-44FE-AD7D-96BE37929A03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D638B366-4365-44FE-AD7D-96BE37929A03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D638B366-4365-44FE-AD7D-96BE37929A03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D638B366-4365-44FE-AD7D-96BE37929A03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B57E20-10C4-4EEF-8010-52BE9EC4A574}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B57E20-10C4-4EEF-8010-52BE9EC4A574}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B57E20-10C4-4EEF-8010-52BE9EC4A574}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B57E20-10C4-4EEF-8010-52BE9EC4A574}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
