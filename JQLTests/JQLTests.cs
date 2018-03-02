@@ -58,6 +58,13 @@ namespace JQLTests
         }
 
         [Test]
+        public void ShouldParseSingleValue()
+        {
+            var result = DataConvert<string>.Parse<SourceClass>(sourceTest, "Name");
+            Assert.AreEqual("SourceTest", result.ToString());
+        }
+
+        [Test]
         public void ShouldParseThrowErrorList()
         {
             Assert.Throws(typeof(ArgumentOutOfRangeException), new TestDelegate(throwsExceptionForArray));
