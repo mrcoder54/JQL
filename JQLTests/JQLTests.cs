@@ -65,6 +65,66 @@ namespace JQLTests
         }
 
         [Test]
+        public void ShouldParseSingleArray()
+        {
+            var json = JsonConvert.SerializeObject(sourceMultipleTest);
+            var result = DataConvert<string[]>.Parse<SourceClass>(json, "[0].Alias");
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual(result[0], "SourceTestA");
+            Assert.AreEqual(result[1], "SourceTestB");
+        }
+
+        [Test]
+        public void ShouldParseSingleArraySingle()
+        {
+            var json = JsonConvert.SerializeObject(sourceMultipleTest);
+            var result = DataConvert<string>.Parse<SourceClass>(json, "[0].Alias[0]");
+            Assert.AreEqual(result, "SourceTestA");
+        }
+
+        [Test]
+        public void ShouldParseSingleListSingle()
+        {
+            var json = JsonConvert.SerializeObject(sourceMultipleTest);
+            var result = DataConvert<int>.Parse<SourceClass>(json, "[0].Lucky.LuckyNumbers[0]");
+            Assert.AreEqual(result, 7);
+        }
+
+        [Test]
+        public void ShouldParseSingleList()
+        {
+            var json = JsonConvert.SerializeObject(sourceMultipleTest);
+            var result = DataConvert<List<int>>.Parse<SourceClass>(json, "[0].Lucky.LuckyNumbers");
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(result[0], 7);
+            Assert.AreEqual(result[1], 11);
+        }
+
+        [Test]
+        public void ShouldParseSingleDate()
+        {
+            var json = JsonConvert.SerializeObject(sourceMultipleTest);
+            var result = DataConvert<DateTime>.Parse<SourceClass>(json, "[0].BirthDate");
+            Assert.AreEqual(result.GetType(), typeof(DateTime));
+            Assert.AreEqual(result.Year, 1978);
+        }
+
+        [Test]
+        public void ShouldParseSingleBool()
+        {
+            var json = JsonConvert.SerializeObject(sourceMultipleTest);
+            var result = DataConvert<bool>.Parse<SourceClass>(json, "[0].Prime");
+            Assert.AreEqual(false, result);
+        }
+
+        [Test]
+        public void ShouldParseSubClass()
+        {
+            var json = JsonConvert.SerializeObject(sourceMultipleTest);
+            var result = DataConvert<SourceSubClass>.Parse<SourceClass>(json, "[0].Lucky");
+        }
+
+        [Test]
         public void ShouldParseThrowErrorList()
         {
             Assert.Throws(typeof(ArgumentOutOfRangeException), new TestDelegate(throwsExceptionForArray));
@@ -115,7 +175,6 @@ namespace JQLTests
             Assert.AreEqual(output.TestSubClass.SubName, "SourceTestA");
             Assert.AreEqual(output.Numbers.Contains(7), true);
             Assert.AreEqual(output.Numbers.Contains(11), true);
-
         }
 
         private void GenerateMap()
@@ -166,6 +225,7 @@ namespace JQLTests
             public List<string> Alias { get; set; }
             public SourceSubClass Lucky { get; set; }
             public DateTime BirthDate { get; set; }
+            public bool Prime { get; set; }
         }
 
         public class SourceSubClass

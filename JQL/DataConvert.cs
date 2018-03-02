@@ -58,7 +58,8 @@ namespace JQL
             //destinationData is dynamically JSON formatted data
             foreach(var map in mapping)
             {
-                var value = GetValue(sourceData, map.SourceType, map.SourceQuery);
+                var token = GetTokenValue(sourceData,  map.SourceQuery);
+                var value = GetValue(token, map.SourceType);
                 //var propA = properties.First(p => p.Name == map.PropertyName);
                 //propA.SetValue(t, value);
 
@@ -79,10 +80,9 @@ namespace JQL
         public static T Parse<Y>(object data, string query)
         {
             var jsonData = GetSource(data);
-            var propertyType = GetReturnPropertyType();
-            var value = GetValue(jsonData, propertyType, query);
+            var token = GetTokenValue(jsonData, query);
 
-            return (T)value;
+            return token.ToObject<T>();
         }
 
         private void SetProperty(string compoundProperty, object target, object value)
@@ -182,10 +182,9 @@ namespace JQL
         //    return val.ToObject(mapType);
         //}
 
-        private static object GetValue(string source, PropertyType type, string query)
+        private static JToken GetTokenValue(string source, string query)
         {
             JToken val = null;
-            var mapType = GetMapType(type);
             if (source.StartsWith("["))
             {
                 JArray array = JArray.Parse(source);
@@ -197,7 +196,13 @@ namespace JQL
                 val = response.SelectToken(query);
             }
 
-            return val.ToObject(mapType);
+            return val;
+        }
+
+        private static object GetValue(JToken token, PropertyType type)
+        {
+            var mapType = GetMapType(type);
+            return token.ToObject(mapType);
         }
 
         private static Type GetMapType(PropertyType type)
@@ -227,32 +232,6 @@ namespace JQL
                 default:
                     throw new ArgumentException(string.Format("Unsupported Type, {0}.", type.ToString()));
             }
-        }
-
-        private static PropertyType GetReturnPropertyType()
-        {
-            if (typeof(T).Equals(typeof(bool)))
-                return PropertyType.BoolType;
-            else if (typeof(T).Equals(typeof(bool[])))
-                return PropertyType.BoolTypeArray;
-            else if (typeof(T).Equals(typeof(List<bool>)))
-                return PropertyType.BoolTypeList;
-            else if (typeof(T).Equals(typeof(DateTime)))
-                return PropertyType.DateTimeType;
-            else if (typeof(T).Equals(typeof(int)))
-                return PropertyType.IntType;
-            else if (typeof(T).Equals(typeof(int[])))
-                return PropertyType.IntTypeArray;
-            else if (typeof(T).Equals(typeof(List<int>)))
-                return PropertyType.IntTypeArray;
-            else if (typeof(T).Equals(typeof(string)))
-                return PropertyType.StringType;
-            else if (typeof(T).Equals(typeof(string[])))
-                return PropertyType.StringTypeArray;
-            else if (typeof(T).Equals(typeof(List<string>)))
-                return PropertyType.StringTypeList;
-            else
-                throw new ArgumentException(string.Format("Unsupported Type, {0}.", typeof(T).ToString()));
         }
     }
 }
